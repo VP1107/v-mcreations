@@ -65,7 +65,7 @@ backToTop.addEventListener('click', () => {
 // ==========================================
 
 // IMPORTANT: Replace this URL with your deployed Google Apps Script URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyotNKKxxmUjKXYPOcVEEgnthrMKtzplyD79KzBCjEG_cKc0vwPIm3Zfk1S9kC_V9hcfg/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7n582w1jbsR500OhdMSM1Smh5z_sCuxBHgE0zNAA0wFGJFTgV3K7OgE9Kqap2Pk4heQ/exec';
 
 // Form elements
 const contactForm = document.getElementById('contactForm');
@@ -74,7 +74,7 @@ const notification = document.getElementById('form-notification');
 
 // Show notification message
 function showNotification(message, type) {
-    notification.textContent = (type === 'success' ? '✅ ' : '❌ ') + message;
+    notification.innerHTML = `<div class="notification-content">${type === 'success' ? '✅ ' : '❌ '}${message}</div>`;
     notification.className = `form-notification ${type}`;
 
     // Auto-hide after 5 seconds
