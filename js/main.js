@@ -1,3 +1,188 @@
+// ==========================================
+// Full-page Background Particle Animation
+// ==========================================
+(function () {
+    const canvas = document.getElementById('heroCanvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let animationId;
+    let particles = [];
+    let codeSymbols = [];
+    let mouse = { x: null, y: null };
+
+    // Configuration - reduced for mobile performance
+    const isMobile = window.innerWidth < 768;
+    const config = {
+        particleCount: isMobile ? 30 : 80,
+        symbolCount: isMobile ? 5 : 15,
+        particleColor: 'rgba(56, 189, 248, 0.5)',
+        lineColor: 'rgba(56, 189, 248, 0.1)',
+        symbolColor: 'rgba(56, 189, 248, 0.2)',
+        maxDistance: isMobile ? 100 : 150,
+        particleSpeed: 0.4,
+        symbols: ['</', '/>', '{}', '()', '[]', '=>', '/*', '*/']
+    };
+
+    // Resize canvas to full window
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    // Particle class
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 3 + 1;
+            this.speedX = (Math.random() - 0.5) * config.particleSpeed;
+            this.speedY = (Math.random() - 0.5) * config.particleSpeed;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            // Bounce off edges
+            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+            // Mouse interaction
+            if (mouse.x !== null && mouse.y !== null) {
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 100) {
+                    this.x -= dx * 0.02;
+                    this.y -= dy * 0.02;
+                }
+            }
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = config.particleColor;
+            ctx.fill();
+        }
+    }
+
+    // Code Symbol class
+    class CodeSymbol {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.symbol = config.symbols[Math.floor(Math.random() * config.symbols.length)];
+            this.size = Math.random() * 14 + 12;
+            this.speedY = (Math.random() - 0.5) * 0.3;
+            this.opacity = Math.random() * 0.3 + 0.1;
+            this.angle = Math.random() * 360;
+            this.rotationSpeed = (Math.random() - 0.5) * 0.5;
+        }
+
+        update() {
+            this.y += this.speedY;
+            this.angle += this.rotationSpeed;
+
+            // Wrap around
+            if (this.y < -20) this.y = canvas.height + 20;
+            if (this.y > canvas.height + 20) this.y = -20;
+        }
+
+        draw() {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.angle * Math.PI / 180);
+            ctx.font = `${this.size}px 'Courier New', monospace`;
+            ctx.fillStyle = `rgba(56, 189, 248, ${this.opacity})`;
+            ctx.textAlign = 'center';
+            ctx.fillText(this.symbol, 0, 0);
+            ctx.restore();
+        }
+    }
+
+    // Draw connecting lines between particles
+    function drawLines() {
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < config.maxDistance) {
+                    const opacity = 1 - (distance / config.maxDistance);
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(56, 189, 248, ${opacity * 0.15})`;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    // Initialize particles and symbols
+    function init() {
+        particles = [];
+        codeSymbols = [];
+
+        for (let i = 0; i < config.particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        for (let i = 0; i < config.symbolCount; i++) {
+            codeSymbols.push(new CodeSymbol());
+        }
+    }
+
+    // Animation loop
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw code symbols (background)
+        codeSymbols.forEach(symbol => {
+            symbol.update();
+            symbol.draw();
+        });
+
+        // Draw connecting lines
+        drawLines();
+
+        // Draw particles
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+
+        animationId = requestAnimationFrame(animate);
+    }
+
+    // Mouse events
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        mouse.x = null;
+        mouse.y = null;
+    });
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        init();
+    });
+
+    // Start animation
+    resizeCanvas();
+    init();
+    animate();
+})();
+
 // Mobile Menu Toggle
 const mobileMenu = document.getElementById('mobile-menu');
 const navLinks = document.querySelector('.nav-links');
@@ -74,13 +259,20 @@ const notification = document.getElementById('form-notification');
 
 // Show notification message
 function showNotification(message, type) {
-    notification.innerHTML = `<div class="notification-content">${type === 'success' ? '✅ ' : '❌ '}${message}</div>`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            ${type === 'success' ? '✅ ' : '❌ '}${message}
+            <button onclick="this.closest('.form-notification').classList.add('hidden')" 
+                    style="margin-top: 15px; padding: 8px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; cursor: pointer; display: block; margin-left: auto; margin-right: auto;">
+                Close
+            </button>
+        </div>`;
     notification.className = `form-notification ${type}`;
 
-    // Auto-hide after 5 seconds
+    // Auto-hide after 8 seconds (longer since user can now close manually)
     setTimeout(() => {
         notification.classList.add('hidden');
-    }, 5000);
+    }, 8000);
 }
 
 // Set button loading state

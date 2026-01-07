@@ -233,6 +233,18 @@ ul {
     gap: 15px;
 }
 
+/* Full-page Background Animation Canvas */
+.bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Hero Image */
 .hero-image img {
     max-width: 100%;
     height: auto;
@@ -245,6 +257,42 @@ ul {
 /* Section Helpers */
 .section-title {
     font-size: 40px;
+}
+
+/* About Stats */
+.about-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-stats .grid {
+    gap: 30px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-item h3 {
+    font-size: 42px;
+    margin-bottom: 5px;
+}
+
+.stat-item p {
+    font-size: 14px;
+}
+
+/* Process Header with Lottie */
+.process-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.process-header lottie-player {
+    filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.3));
 }
 
 .bg-alt {
@@ -335,6 +383,43 @@ ul {
     font-size: 14px;
 }
 
+.italic {
+    font-style: italic;
+}
+
+/* Trust Badges */
+.trust-badges .badge-list {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.trust-badges .badge {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+/* Availability Banner */
+.availability-banner {
+    background: rgba(56, 189, 248, 0.1);
+    padding: 10px 16px;
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+}
+
+/* Trust Signals */
+.trust-signals {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
 /* Animations */
 .animate-reveal {
     opacity: 0;
@@ -352,6 +437,11 @@ ul {
     .grid-3 {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+/* Mobile Menu Toggle - Hidden by default on desktop */
+.menu-toggle {
+    display: none;
 }
 
 @media (max-width: 768px) {
