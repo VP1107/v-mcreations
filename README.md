@@ -1,6 +1,6 @@
 # V&M Websites - Freelance Portfolio
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-blue?style=for-the-badge)](https://vp1107.github.io/portfolio-website)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-blue?style=for-the-badge)](https://vp1107.github.io/vm-creations/)
 
 A modern, professional portfolio website for **Vatsal & Mann**, showcasing affordable web development services for small businesses in India.
 
