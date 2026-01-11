@@ -1,12 +1,12 @@
 # V&M Websites - Freelance Portfolio
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-blue?style=for-the-badge)](https://vp1107.github.io/vm-creations/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_Site-blue?style=for-the-badge&logo=google-chrome&logoColor=white)](https://vp1107.github.io/vm-creations/)
 
 A modern, professional portfolio website for **Vatsal & Mann**, showcasing affordable web development services for small businesses in India.
 
-![Preview](./assets/responsive_mockup.png)
+![Preview](./assets/responsive_mockup.webp)
 
-## 🌟 Features
+## Features
 
 - **Responsive Design** - Fully optimized for all devices (desktop, tablet, mobile)
 - **Modern Aesthetics** - Glassmorphism effects, smooth animations, and a dark theme
@@ -14,7 +14,7 @@ A modern, professional portfolio website for **Vatsal & Mann**, showcasing affor
 - **SEO Optimized** - Schema markup, meta descriptions, and semantic HTML
 - **Fast Loading** - Clean, minimal codebase with no external dependencies
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 portfolio-website/
@@ -24,15 +24,15 @@ portfolio-website/
 ├── js/
 │   └── main.js             # Interactive features (nav, FAQ, form, animations)
 ├── assets/
-│   ├── responsive_mockup.png      # Hero section mockup
-│   ├── chef4u-screenshot.png      # Project screenshot
-│   ├── renav-official-screenshot.png
-│   └── renav-messenger-screenshot.png
+│   ├── responsive_mockup.webp      # Hero section mockup
+│   ├── chef4u-screenshot.webp      # Project screenshot
+│   ├── renav-official-screenshot.webp
+│   └── renav-messenger-screenshot.webp
 ├── maintenance-policy.pdf  # Terms & Conditions
 └── README.md               # This file
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 1.  Clone the repository:
     ```bash
@@ -42,7 +42,7 @@ portfolio-website/
 
 No build tools or dependencies required!
 
-## 📄 Sections
+## Sections
 
 | Section      | Description                                            |
 | :----------- | :----------------------------------------------------- |
@@ -56,18 +56,18 @@ No build tools or dependencies required!
 | **FAQ**      | Accordion-style frequently asked questions             |
 | **Contact**  | Contact info and a functional inquiry form             |
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-- **HTML5** - Semantic structure
-- **CSS3** - Custom properties, Flexbox, Grid, animations
-- **JavaScript** - Vanilla JS for interactivity
-- **Google Apps Script** - Serverless form backend
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![Google Apps Script](https://img.shields.io/badge/google%20apps%20script-4285F4?style=for-the-badge&logo=google&logoColor=white)
 
-## 📧 Contact
+## Contact
 
 - **Email:** vm.creationteam@gmail.com
 - **WhatsApp:** +91 6353096737 | +91 7383281240
 
 ---
 
-© 2026 Vatsal & Mann. Built with ❤️.
+© 2026 Vatsal & Mann. Built with passion.

@@ -340,6 +340,12 @@ document.querySelectorAll('.animate-reveal').forEach(el => {
         if (videoIntro) {
             videoIntro.classList.add('hidden');
         }
+
+        // Ensure navbar logo is visible for returning users
+        const navLogoLink = document.querySelector('.navbar .logo-essential');
+        if (navLogoLink) {
+            navLogoLink.classList.add('logo-visible');
+        }
         return;
     }
 
@@ -351,6 +357,9 @@ document.querySelectorAll('.animate-reveal').forEach(el => {
         videoIntro.style.opacity = '0';
         videoIntro.style.visibility = 'hidden';
     }
+
+    // Disable scroll initially
+    document.body.style.overflow = 'hidden';
 
     let currentWord = 0;
     const wordDuration = 700; // each word visible for 700ms
@@ -383,11 +392,41 @@ document.querySelectorAll('.animate-reveal').forEach(el => {
                     videoIntro.style.animation = 'none';
 
                     setTimeout(() => {
-                        videoIntro.style.animation = 'introFadeOut 0.8s ease forwards';
+                        // --- START LOGO MIGRATION ---
+                        const introLogo = document.querySelector('.intro-logo');
+                        const navLogoLink = document.querySelector('.navbar .logo-essential');
+
+                        if (!introLogo || !navLogoLink) return;
+
+                        // 1. Get positions
+                        const introRect = introLogo.getBoundingClientRect();
+                        const navRect = navLogoLink.getBoundingClientRect();
+
+                        // 2. Calculate Scaling
+                        const scale = navRect.height / introRect.height;
+
+                        // 3. Calculate Translation
+                        const deltaX = navRect.left - introRect.left;
+                        const deltaY = navRect.top - introRect.top;
+
+                        // 4. Prepare for Animation
+                        introLogo.classList.add('moving');
+                        void introLogo.offsetWidth; // Force reflow
+
+                        // 5. Apply Animation
+                        videoIntro.classList.add('fade-bg');
+                        introLogo.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scale})`;
+
+                        // 6. Cleanup after transition
                         setTimeout(() => {
+                            navLogoLink.classList.add('logo-visible');
                             videoIntro.classList.add('hidden');
-                        }, 800);
-                    }, 1500);
+                            document.body.style.overflow = '';
+                        }, 1000);
+
+                    }, 1500); // Wait before moving
+                } else {
+                    document.body.style.overflow = ''; // Re-enable scroll if no video intro
                 }
 
                 setTimeout(() => {
@@ -402,11 +441,14 @@ document.querySelectorAll('.animate-reveal').forEach(el => {
 
 
     wordSequence.addEventListener('click', () => {
+        const navLogoLink = document.querySelector('.navbar .logo-essential');
         wordSequence.classList.add('collapsed');
         wordSequence.classList.add('hidden');
         if (videoIntro) {
             videoIntro.classList.add('hidden');
         }
+        if (navLogoLink) navLogoLink.classList.add('logo-visible'); // Show nav logo immediately
+        document.body.style.overflow = ''; // Re-enable scroll on skip
     });
 })();
 
@@ -565,3 +607,49 @@ if (contactForm) {
         }
     });
 }
+
+
+// Maintenance Policy Modal Logic
+(function () {
+    const modalOverlay = document.getElementById('policyModal');
+    const openBtn = document.getElementById('openPolicyBtn');
+    const closeBtn = document.querySelector('.close-modal');
+
+    if (!modalOverlay || !openBtn || !closeBtn) return;
+
+    function openModal(e) {
+        if (e) e.preventDefault();
+        modalOverlay.classList.remove('hidden');
+        // Small timeout to allow display:block to apply before opacity transition
+        setTimeout(() => {
+            modalOverlay.classList.add('show');
+        }, 10);
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    function closeModal() {
+        modalOverlay.classList.remove('show');
+        setTimeout(() => {
+            modalOverlay.classList.add('hidden');
+        }, 300); // Wait for transition
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+
+    openBtn.addEventListener('click', openModal);
+
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close on click outside
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            closeModal();
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('show')) {
+            closeModal();
+        }
+    });
+})();
